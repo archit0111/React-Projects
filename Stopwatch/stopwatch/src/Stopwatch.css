@@ -1,0 +1,64 @@
+h1{
+    color: #975600;
+    font-size: 8vh;
+    justify-self: center;
+    width: max-content;
+}
+
+#heading{
+    margin-top: 4em;
+}
+.main_div{
+    justify-self: center;
+    width: fit-content;
+}
+#display{
+    height: 15vh;
+    width: fit-content;
+    align-content: center;
+    justify-self: center;
+}
+#display_para{
+    background: #ffffff;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 0.8em;
+    text-align: center;
+    font-size: 3vh;
+}
+.btn{
+    display: flex;
+    gap: 4em;
+    padding-top: 5em;
+    width: fit-content;
+}
+.btn button{
+    height: 6vh;
+    width: 12vh;
+    border-radius: 5px;
+    font-size: x-large;
+}
+#start_btn{
+    background-color: #0bb50b;
+}
+#stop_btn{
+    background-color: red;
+}
+#reset_btn{
+    background-color: yellow;
+}
+
+.laps{
+    text-align: center;
+    margin-top: 10vh;
+}
+.laps .lap{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 2vh;
+    background: #ffb046;
+    font-weight: bold;
+    padding: 1vh;
+    border-radius: 10px;
+    margin: 0em 0.4em 0.7em 0.4em;
+}

@@ -1,0 +1,12 @@
+.header{
+  justify-items: center;
+}
+#conter_heading{
+  font-size: xxx-large;
+    text-align: center;
+    margin-top: 10vh;
+    background-color: gray;
+    color: aliceblue;
+    width: 50%;
+    border-radius: 1em;
+}
