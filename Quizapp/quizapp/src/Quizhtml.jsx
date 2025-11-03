@@ -1,6 +1,14 @@
 import './Quiz.css'
+import { useState } from 'react';
 
 function Quizhtml(){
+    const [Ans,setAns] = useState({});
+    const [Result,setResult] = useState(false);
+    const [correct,setcorrect] = useState(0);
+    const [incorrect,setincorrect] = useState(0);
+    const [Wrongans,setWrongans] = useState([]);
+    const correctAnswers = [0, 4, 0, 0, 0, 2, 0, 0, 0, 0];
+
     const Questions = [
           "What does HTML stand for?",
           "Which HTML tag is used to create a hyperlink?",
@@ -15,7 +23,7 @@ function Quizhtml(){
     ];
     const options =[
           ["Hyper Text Markup Language", "High Text Making Language", "Hyperlinks and Text Markup Language", "Hyper Tool Multi Language"], // Q1
-          ["<a>", "<link>", "<href>", "<url>"], // Q2
+          ["<url>", "<link>", "<href>","<a>"], // Q2
           ["<img src='image.jpg'>", "<image>image.jpg</image>", "<pic>image.jpg</pic>", "<img>image.jpg</img>"], // Q3
           ["target", "link", "href", "ref"], // Q4
           ["<style>", "<css>", "<script>", "<design>"], // Q5
@@ -26,23 +34,55 @@ function Quizhtml(){
           ["localStorage", "sessionStorage", "cookieStorage", "webStorage"]
      ];
 
+     function handelAns(e){
+        setAns(Ans=>({...Ans, [e.target.name] : e.target.value}))
+     };
+
+     function handelResults(){
+        if(Object.keys(Ans).length > 1){
+            showResults();
+        }else{
+            alert("Select answer of all the given Questions.");
+        }
+     }
+
+     function showResults(){
+        setResult(true);
+        Object.keys(Ans).map((Element,i,key)=>{
+            key={i}
+            if(correctAnswers[i] === (Ans[key])){
+                setcorrect(correct=>correct+1);
+            }
+            else{
+                setincorrect(incorrect=>incorrect+1);
+                setWrongans(...Wrongans, i);
+            }
+        })
+        
+     }
 
     return(
         <>
         <div id="question">
             {Questions.map((q,i) => (
-                <>
-                    <div key={i} id="ques"><p id="q">Q{i}.</p>{q}</div>
+                <div key={i}>
+                    <div id="ques"><p id="q">Q{i+1}.</p>{q}</div>
                     <ul className="option_list">
-                        {options[i].map((opt)=>(
-                        <li id="option"><input type="radio" className="ans_selected" name={i} value={opt}/>
+                        {options[i].map((opt,o)=>(
+                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o}/>
                             <p id="op">{opt}</p></li>
                     ))}
                     </ul>
-                </>
+                </div>
             ))
             }
             </div>
+            <div id='result_btn'><button onClick={handelResults}>Show Result</button></div>
+            {Result && <><div id='result'>
+                <div id="correct">Your correct Answers:{correct}</div>
+                <div id="incorrect">Your incorrect Answers:{incorrect}</div>
+                </div>
+                </>}
         </>
     )
 }

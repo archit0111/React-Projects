@@ -1,7 +1,8 @@
 #question{
-    background-color: aliceblue;
+    background-color: rgb(123, 187, 195);
     border-radius: 10px;
-    padding: 1.5em;
+    padding: 2em;
+    margin-top: 10vh;
 }
 
 #ques{
@@ -15,10 +16,11 @@
 .option_list{
     list-style: none;
     margin-left: -12px;
-    background: antiquewhite;
+    background: rgb(190, 247, 253);
     border-radius: 8px;
     padding: 15px;
 }
 #option{
     display: flex;
 }
+

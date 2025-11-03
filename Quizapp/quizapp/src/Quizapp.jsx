@@ -41,7 +41,7 @@ function Quizapp(){
 
     return(
         <>
-        <div className="header">Quizapp</div>
+        <div className="header">QUIZAPP</div>
         <div className="quiz_main">
             <div className="div1">
                 <div className="quiz_box">
