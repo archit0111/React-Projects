@@ -24,7 +24,7 @@ function Quizhtml(){
           ["<ol>", "<ul>", "<dl>", "<li>"], // Q8
           ["Give them the same name attribute", "Give them different IDs", "Wrap them in a <fieldset>", "Use <input type='group'>"], // Q9
           ["localStorage", "sessionStorage", "cookieStorage", "webStorage"]
-     ]
+     ];
 
 
     return(
@@ -32,10 +32,13 @@ function Quizhtml(){
         <div id="question">
             {Questions.map((q,i) => (
                 <>
-                    <div key={i} id="ques">{q}</div>
-                    {options[i].map((opt,i)=>(
-                        <div id="option">{opt}</div>
+                    <div key={i} id="ques"><p id="q">Q{i}.</p>{q}</div>
+                    <ul className="option_list">
+                        {options[i].map((opt)=>(
+                        <li id="option"><input type="radio" className="ans_selected" name={i} value={opt}/>
+                            <p id="op">{opt}</p></li>
                     ))}
+                    </ul>
                 </>
             ))
             }

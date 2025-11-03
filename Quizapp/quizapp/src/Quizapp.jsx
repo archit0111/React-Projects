@@ -31,7 +31,7 @@ function Quizapp(){
             setReact(false);
         }
         else{
-            setReact(ture)
+            setReact(true)
             setCss(false);
             setHtml(false);
             setJs(false);
