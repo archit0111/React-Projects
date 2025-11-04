@@ -7,6 +7,7 @@ function Quizcss(){
      const [correct,setcorrect] = useState(0);
      const [incorrect,setincorrect] = useState(0);
      const [Wrongans,setWrongans] = useState([]);
+     const correctAnswers = [2,1,3,4,2,1,3,2,1,3]
      
 
     const Questions = [
@@ -23,16 +24,16 @@ function Quizcss(){
         ];
 
         const options = [
-            ["Cascading Style Sheets", "Creative Style Syntax", "Computer Styled Sheets", "Coded Style System"],
+            ["Creative Style Syntax", "Cascading Style Sheets", "Computer Styled Sheets", "Coded Style System"],
             ["color", "font-color", "text-color", "background-color"],
-            ["/* comment */", "<!-- comment -->", "// comment", "# comment"],
-            ["#main", ".main", "main", "*main"],
-            ["font-size", "text-style", "size", "font-weight"],
+            ["<!-- comment -->", "// comment", "/* comment */", "# comment"],
+            [".main", "main", "*main", "#main"],
+            ["text-style", "font-size", "size", "font-weight"],
             ["static", "relative", "absolute", "fixed"],
-            ["margin", "padding", "border", "spacing"],
-            ["Relative is based on its normal position, absolute is based on nearest positioned ancestor", "Both are same", "Relative is for top only", "Absolute moves with scroll"],
+            ["padding", "border", "margin", "spacing"],
+            ["Both are same", "Relative is based on its normal position, absolute is based on nearest positioned ancestor", "Relative is for top only", "Absolute moves with scroll"],
             ["Stacking order of positioned elements", "Font size", "Opacity", "Display type"],
-            ["Media Queries", "Flexbox", "Grid", "Variables"]
+            ["Flexbox", "Grid", "Media Queries", "Variables"]
         ];
 
         function handelAns(e){
@@ -49,16 +50,25 @@ function Quizcss(){
 
      function showResults(){
         setResult(true);
-        Object.keys(Ans).map((Element,i,key)=>{
-            key={i}
-            if(correctAnswers[i] === (Ans[key])){
-                setcorrect(correct=>correct+1);
+        setcorrect(0);
+        setincorrect(0);
+        let c = 0;
+        let inc = 0;
+        let wrasn = [];
+
+        Object.keys(Ans).forEach((key)=>{
+            if(String(correctAnswers[Number(key)-1]) === String(Ans[key])){
+                c++;
             }
             else{
-                setincorrect(incorrect=>incorrect+1);
-                setWrongans(...Wrongans, i);
+                inc++;
+                wrasn.push(Number(key));
             }
         })
+        console.log("Q:Correct:", c);
+        setcorrect(c);
+        setincorrect(inc);
+        setWrongans(wrasn);
         
      }
 
@@ -71,7 +81,7 @@ function Quizcss(){
                     <div id="ques"><p id="q">Q{i+1}.</p>{q}</div>
                     <ul className="option_list">
                         {options[i].map((opt,o)=>(
-                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o}/>
+                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o+1}/>
                             <p id="op">{opt}</p></li>
                     ))}
                     </ul>

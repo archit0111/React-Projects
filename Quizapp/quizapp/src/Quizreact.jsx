@@ -7,7 +7,7 @@ function Quizreact(){
      const [correct,setcorrect] = useState(0);
      const [incorrect,setincorrect] = useState(0);
      const [Wrongans,setWrongans] = useState([]);
-     const correctAnswers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+     const correctAnswers = [2,3,4,2,4,3,1,2,4,1];
 
     const Questions = [
         "What is React primarily used for?",
@@ -23,15 +23,15 @@ function Quizreact(){
     ];
 
     const options = [
-        ["Building user interfaces", "Database management", "Server routing", "Stateful APIs"],
-        ["Facebook", "Google", "Microsoft", "Twitter"],
-        ["A syntax extension that looks like HTML but works in JavaScript", "A JSON format", "A CSS framework", "A React hook"],
-        ["function MyComp() { return <div>Hello</div>; }", "createComponent('MyComp')", "component MyComp()", "renderComponent()"],
-        ["useState()", "useEffect()", "useRef()", "useContext()"],
-        ["To perform side effects like data fetching or DOM manipulation", "To define components", "To change state directly", "To handle errors"],
+        ["Database management", "Building user interfaces", "Server routing", "Stateful APIs"],
+        ["Google", "Microsoft", "Facebook", "Twitter"],
+        ["A JSON format", "A CSS framework", "A React hook", "A syntax extension that looks like HTML but works in JavaScript"],
+        ["createComponent('MyComp')", "function MyComp() { return <div>Hello</div>; }", "component MyComp()", "renderComponent()"],
+        ["useEffect()", "useRef()", "useContext()", "useState()"],
+        ["To define components", "To change state directly", "To perform side effects like data fetching or DOM manipulation", "To handle errors"],
         ["A lightweight copy of real DOM that React uses for fast updates", "An HTML element", "A JavaScript object", "A server-side DOM"],
-        ["Using props", "Using state", "Using context", "Using return"],
-        ["componentDidMount()", "useEffect()", "render()", "constructor()"],
+        ["Using state", "Using props", "Using context", "Using return"],
+        ["useEffect()", "render()", "constructor()", "componentDidMount()"],
         ["A complete rewrite of React’s core algorithm for better rendering", "A debugging tool", "A React version name", "A data layer"]
     ];
 
@@ -56,8 +56,7 @@ function Quizreact(){
         let wrasn = [];
 
         Object.keys(Ans).forEach((key)=>{
-            alert(typeof(String(correctAnswers[Number(key)])));
-            if(String(correctAnswers[Number(key)-1]) === Ans[(key)]){
+            if(String(correctAnswers[Number(key)-1]) === String(Ans[key])){
                 c++;
             }
             else{
@@ -65,11 +64,13 @@ function Quizreact(){
                 wrasn.push(Number(key));
             }
         })
+        console.log("Q:Correct:", c);
         setcorrect(c);
         setincorrect(inc);
         setWrongans(wrasn);
         
      }
+
 
     return(
         <>

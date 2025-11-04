@@ -7,6 +7,8 @@ function Quizjs(){
     const [correct,setcorrect] = useState(0);
     const [incorrect,setincorrect] = useState(0);
     const [Wrongans,setWrongans] = useState([]);
+    const correctAnswers = [1, 4, 2, 1, 3, 1, 2, 3, 4, 2];
+
 
     const Questions = [
         "Which keyword is used to declare a variable in JavaScript?",
@@ -22,16 +24,18 @@ function Quizjs(){
     ];
     const options = [
         ["var", "int", "string", "num"],
-        ["console.log()", "print()", "echo()", "log.console()"],
-        ["object", "null", "undefined", "number"],
+        ["print()", "echo()", "log.console()", "console.log()"],
+        ["null", "object", "undefined", "number"],
         ["===", "==", "=", "=>"],
-        ["'22'", "4", "NaN", "error"],
+        ["4", "NaN", "'22'", "error"],
         ["It refers to the current execution context", "It always refers to window", "It refers to parent object only", "It has no meaning"],
-        ["A function that remembers its lexical scope even when executed outside", "A function inside a function", "A method to close programs", "A callback"],
+        ["A function inside a function", "A function that remembers its lexical scope even when executed outside", "A method to close programs", "A callback"],
         ["Boolean", "Number", "String", "Character"],
-        ["To handle asynchronous operations more easily", "To stop loops", "To define promises", "To debug code"],
-        ["JSON.parse()", "JSON.stringify()", "parse.JSON()", "JSON.convert()"]
+        ["To stop loops", "To define promises", "To debug code", "To handle asynchronous operations more easily"],
+        ["JSON.stringify()", "JSON.parse()", "parse.JSON()", "JSON.convert()"]
     ];
+
+
     function handelAns(e){
         setAns(Ans=>({...Ans, [e.target.name] : e.target.value}))
      };
@@ -46,16 +50,25 @@ function Quizjs(){
 
      function showResults(){
         setResult(true);
-        Object.keys(Ans).map((Element,i,key)=>{
-            key={i}
-            if(correctAnswers[i] === (Ans[key])){
-                setcorrect(correct=>correct+1);
+        setcorrect(0);
+        setincorrect(0);
+        let c = 0;
+        let inc = 0;
+        let wrasn = [];
+
+        Object.keys(Ans).forEach((key)=>{
+            if(String(correctAnswers[Number(key)-1]) === String(Ans[key])){
+                c++;
             }
             else{
-                setincorrect(incorrect=>incorrect+1);
-                setWrongans(...Wrongans, i);
+                inc++;
+                wrasn.push(Number(key));
             }
         })
+        console.log("Q:Correct:", c);
+        setcorrect(c);
+        setincorrect(inc);
+        setWrongans(wrasn);
         
      }
 
@@ -68,7 +81,7 @@ function Quizjs(){
                     <div id="ques"><p id="q">Q{i+1}.</p>{q}</div>
                     <ul className="option_list">
                         {options[i].map((opt,o)=>(
-                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o}/>
+                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o+1}/>
                             <p id="op">{opt}</p></li>
                     ))}
                     </ul>

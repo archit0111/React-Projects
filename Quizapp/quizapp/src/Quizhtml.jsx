@@ -7,7 +7,7 @@ function Quizhtml(){
     const [correct,setcorrect] = useState(0);
     const [incorrect,setincorrect] = useState(0);
     const [Wrongans,setWrongans] = useState([]);
-    const correctAnswers = [0, 4, 0, 0, 0, 2, 0, 0, 0, 0];
+    const correctAnswers = [4, 4, 2, 1, 1, 2, 4, 3, 2, 1];
 
     const Questions = [
           "What does HTML stand for?",
@@ -22,15 +22,15 @@ function Quizhtml(){
           "Which HTML API is used for storing data locally in the browser?"
     ];
     const options =[
-          ["Hyper Text Markup Language", "High Text Making Language", "Hyperlinks and Text Markup Language", "Hyper Tool Multi Language"], // Q1
+          ["High Text Making Language", "Hyperlinks and Text Markup Language", "Hyper Tool Multi Language", "Hyper Text Markup Language",], // Q1
           ["<url>", "<link>", "<href>","<a>"], // Q2
-          ["<img src='image.jpg'>", "<image>image.jpg</image>", "<pic>image.jpg</pic>", "<img>image.jpg</img>"], // Q3
+          ["<image>image.jpg</image>", "<img src='image.jpg'>", "<pic>image.jpg</pic>", "<img>image.jpg</img>"], // Q3
           ["target", "link", "href", "ref"], // Q4
           ["<style>", "<css>", "<script>", "<design>"], // Q5
           ["<article>", "<section>", "<div>", "<header>"], // Q6
-          ["To define metadata about the HTML document", "To create links", "To include CSS files", "To display an image"], // Q7
-          ["<ol>", "<ul>", "<dl>", "<li>"], // Q8
-          ["Give them the same name attribute", "Give them different IDs", "Wrap them in a <fieldset>", "Use <input type='group'>"], // Q9
+          ["To create links", "To include CSS files", "To display an image", "To define metadata about the HTML document"], // Q7
+          ["<ul>", "<dl>", "<ol>", "<li>"], // Q8
+          ["Give them different IDs", "Give them the same name attribute", "Wrap them in a <fieldset>", "Use <input type='group'>"], // Q9
           ["localStorage", "sessionStorage", "cookieStorage", "webStorage"]
      ];
 
@@ -48,19 +48,27 @@ function Quizhtml(){
 
      function showResults(){
         setResult(true);
-        Object.keys(Ans).map((Element,i,key)=>{
-            key={i}
-            if(correctAnswers[i] === (Ans[key])){
-                setcorrect(correct=>correct+1);
+        setcorrect(0);
+        setincorrect(0);
+        let c = 0;
+        let inc = 0;
+        let wrasn = [];
+
+        Object.keys(Ans).forEach((key)=>{
+            if(String(correctAnswers[Number(key)-1]) === String(Ans[key])){
+                c++;
             }
             else{
-                setincorrect(incorrect=>incorrect+1);
-                setWrongans(...Wrongans, i);
+                inc++;
+                wrasn.push(Number(key));
             }
         })
+        console.log("Q:Correct:", c);
+        setcorrect(c);
+        setincorrect(inc);
+        setWrongans(wrasn);
         
      }
-
     return(
         <>
         <div id="question">
@@ -69,7 +77,7 @@ function Quizhtml(){
                     <div id="ques"><p id="q">Q{i+1}.</p>{q}</div>
                     <ul className="option_list">
                         {options[i].map((opt,o)=>(
-                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o}/>
+                        <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o+1}/>
                             <p id="op">{opt}</p></li>
                     ))}
                     </ul>
