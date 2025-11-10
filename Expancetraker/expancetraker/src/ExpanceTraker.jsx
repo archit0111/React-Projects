@@ -27,7 +27,7 @@ function ExpanceTraker(){
     function handelDel(k){
         const copy = {...TotalExpance};
         delete copy[k];
-        setT_exp(copy);
+        setTotalExpance(copy);
         if(Object.entries(TotalExpance).length === 1){
             setNumberOfExpances(true);
         }
