@@ -2,18 +2,18 @@ import { useState } from "react";
 import './Form.css'
 
 function Form(){
-    const [NameValid,setNameValid]=useState(false);
-    const [RollnoValid,setRollnoValid]=useState(false);
-    const [EmailValid,setEmailValid]=useState(false);
-    const [DOBValid,setDOBValid]=useState(false);
-    const [PasswordValid,setPasswordValid]=useState(false);
+    const [nameValid,setNameValid]=useState(false);
+    const [rollnoValid,setRollnoValid]=useState(false);
+    const [emailValid,setEmailValid]=useState(false);
+    const [dobValid,setDOBValid]=useState(false);
+    const [passwordValid,setPasswordValid]=useState(false);
 
-    const[Name,setName]=useState("");
-    const[Rollno,setRollno]=useState();
-    const[Email,setEmail]=useState("");
-    const[DOB,setDOB]=useState();
-    const[Password,setPassword]=useState();
-    const[Display,setDisplay]=useState(false);
+    const[name,setName]=useState("");
+    const[rollno,setRollno]=useState();
+    const[email,setEmail]=useState("");
+    const[dob,setDOB]=useState();
+    const[password,setPassword]=useState();
+    const[display,setDisplay]=useState(false);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const nameRegex = /^[A-Za-z\s]{2,40}$/;
@@ -56,18 +56,18 @@ function Form(){
 
     function handelSubmit(e){
         e.preventDefault();
-        if(!NameValid){
+        if(!nameValid){
             alert("Enter the minimum 2 charaters in name!");}
-        if(!RollnoValid){
+        if(!rollnoValid){
             alert("Enter valid rollno of 14 digits!");}
-        if(!EmailValid){
+        if(!emailValid){
             alert("Enter valid email!");}
-        if(!DOBValid){
+        if(!dobValid){
             alert("Enter valid DOB!");}
-        if(!PasswordValid){
+        if(!passwordValid){
             alert("Enter 6 digit valid password!")}
 
-        if(NameValid&&RollnoValid&&EmailValid&&DOBValid&&PasswordValid){
+        if(nameValid&&rollnoValid&&emailValid&&dobValid&&passwordValid){
             setDisplay(true);
         }
                         
@@ -80,15 +80,15 @@ function Form(){
             <div className="inputs">
                 <form action="get">
                     <label id="name">Name:</label>
-                    <input type="text" name="name" id="name" placeholder="Enter Your Name.." value={Name} onChange={handelChange} required/>
+                    <input type="text" name="name" id="name" placeholder="Enter Your Name.." value={name} onChange={handelChange} required/>
                     <label id="rollno">Roll No.:</label>
-                    <input type="number" name="rollno" id="rollno" placeholder="Enter Your 14 digit rollno.." value={Rollno} onChange={handelChange}/>
+                    <input type="number" name="rollno" id="rollno" placeholder="Enter Your 14 digit rollno.." value={rollno} onChange={handelChange}/>
                     <label id="email">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="Enter Your Email.." value={Email} onChange={handelChange}/>
+                    <input type="email" name="email" id="email" placeholder="Enter Your Email.." value={email} onChange={handelChange}/>
                     <label id="dob">Date Of Birth:</label>
-                    <input type="date" name="dob" id="dob" placeholder="Enter Your DOB.." value={DOB} onChange={handelChange}/>
+                    <input type="date" name="dob" id="dob" placeholder="Enter Your DOB.." value={dob} onChange={handelChange}/>
                     <label id="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Enter Your 6 digit Password.." value={Password} onChange={handelChange}/>
+                    <input type="password" name="password" id="password" placeholder="Enter Your 6 digit Password.." value={password} onChange={handelChange}/>
                     <div className="btn"><button type="submit" onClick={handelSubmit}>Submit</button></div>
                 </form>
             </div>
@@ -97,11 +97,11 @@ function Form(){
         <div className="display">
             <h4>Your Details:</h4>
             <div id="display_box">
-                <div><span>Name: </span>{Name}</div>
-                <div><span>Rollno.: </span>{Rollno}</div>
-                <div><span>Email: </span>{Email}</div>
-                <div><span>Date Of Birth: </span>{DOB}</div>
-                <div><span>Password: </span>{Password}</div>
+                <div><span>Name: </span>{name}</div>
+                <div><span>Rollno.: </span>{rollno}</div>
+                <div><span>Email: </span>{email}</div>
+                <div><span>Date Of Birth: </span>{dob}</div>
+                <div><span>Password: </span>{password}</div>
             </div>
         </div>
         :null}

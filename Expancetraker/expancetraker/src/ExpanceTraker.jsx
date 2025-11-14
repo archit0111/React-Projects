@@ -2,21 +2,21 @@ import './ExpanceTraker.css'
 import { useState } from 'react'
 
 function ExpanceTraker(){
-    const [NewExpance,setNewExpance]=useState("");
-    const [NewExpanceAmount,setNewExpanceAmount]=useState("");
-    const [TotalExpance,setTotalExpance]=useState({});
+    const [newExpance,setNewExpance]=useState("");
+    const [newExpanceAmount,setNewExpanceAmount]=useState("");
+    const [totalExpance,setTotalExpance]=useState({});
     const [display,setdisplay]=useState(false);
-    const [NumberOfExpances,setNumberOfExpances]=useState(false);
+    const [numberOfExpances,setNumberOfExpances]=useState(false);
 
     function handeladd(){
-        if(NewExpance===""){
+        if(newExpance===""){
             alert("Enter your expance...");
         }
-        if(NewExpanceAmount===""||isNaN(NewExpanceAmount)){
+        if(newExpanceAmount===""||isNaN(newExpanceAmount)){
             alert("Enter the expance's amount...");
         }
-        if(NewExpance!=""&&NewExpanceAmount!=""){
-            setTotalExpance({...TotalExpance,[NewExpance]:NewExpanceAmount});
+        if(newExpance!=""&&newExpanceAmount!=""){
+            setTotalExpance({...totalExpance,[newExpance]:newExpanceAmount});
             setdisplay(true);
             setNewExpance("");
             setNewExpanceAmount("");
@@ -25,10 +25,10 @@ function ExpanceTraker(){
     }
 
     function handelDel(k){
-        const copy = {...TotalExpance};
+        const copy = {...totalExpance};
         delete copy[k];
         setTotalExpance(copy);
-        if(Object.entries(TotalExpance).length === 1){
+        if(Object.entries(totalExpance).length === 1){
             setNumberOfExpances(true);
         }
     }
@@ -39,26 +39,26 @@ function ExpanceTraker(){
         <div className="addbox">
             <div className="add_heading">Enter new expance:</div>
             <div className="add">
-                <input type="text" placeholder='Expance ?' id='expance' value={NewExpance} onChange={(e)=>{setNewExpance(e.target.value)}} />
-                <input type="Number" placeholder='Amount ?' id='amount' value={NewExpanceAmount} onChange={(e)=>{setNewExpanceAmount(e.target.value)}}/>
+                <input type="text" placeholder='Expance ?' id='expance' value={newExpance} onChange={(e)=>{setNewExpance(e.target.value)}} />
+                <input type="Number" placeholder='Amount ?' id='amount' value={newExpanceAmount} onChange={(e)=>{setNewExpanceAmount(e.target.value)}}/>
                 <button id='add_btn'onClick={handeladd}>Add</button>
             </div>
         </div>
             {
                 display?
         <div className="display">{
-                Object.keys(TotalExpance).map(key=>(
+                Object.keys(totalExpance).map(key=>(
                     <div id='dis_row' key={key}>
                     <div id='exp_box'>
                         {key}
                     </div>
                     <div id='am_box'>
-                        {TotalExpance[key]}
+                        {totalExpance[key]}
                     </div>
                     <button id='del' onClick={()=>handelDel(key)}>Delete</button>
                     </div>
                 ))}
-                <div className="nothing_to_dis">{NumberOfExpances?<div id='ntd'>There is no expances added by you!</div>:null}</div>
+                <div className="nothing_to_dis">{numberOfExpances?<div id='ntd'>There is no expances added by you!</div>:null}</div>
         </div>:null
             }
 
