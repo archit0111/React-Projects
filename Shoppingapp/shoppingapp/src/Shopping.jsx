@@ -1,8 +1,30 @@
 import { useState } from "react";
-// import img from '/ts-1.webpg'
+import { useEffect } from "react";
 
 function Shopping(){
     const [options,setOptions] = useState(false);
+    const [userproducts,setUserproducts]=useState({});
+    const [searchinput,setSearchinput]=useState("");
+
+
+    function handelSearch(e){
+        setSearchinput(e.target.value);
+    }
+
+
+    useEffect(()=>{
+        setUserproducts({});
+        let filtered = {};
+        Object.entries(products).forEach(([key,value])=>{
+            value.type.forEach(item=>{
+                if(item.startsWith(searchinput.toLowerCase())){
+                        filtered[key] = value;
+                }
+            });
+        })
+        setUserproducts(filtered);
+    },[searchinput]);
+
 
     const products ={
         id_1:{
@@ -99,13 +121,13 @@ function Shopping(){
         </section>
         <section className="h-28 content-center">
             <div>
-                <div className='h-auto text-center w-auto'><input type="text" placeholder="Search for Something...." className='w-100 p-2 rounded-2xl hover:border hover:border-indigo-300 focus:border focus:border-indigo-300 border border-indigo-300 hover:shadow-xl  hover:shadow-indigo-100  [@media(max-width:500px)]:w-4/6 [@media(max-width:400px)]:p-1 '/></div>
+                <div className='h-auto text-center w-auto'><input onChange={(e)=>{handelSearch(e)}} type="text" placeholder="Search for Something...." className='w-100 p-2 rounded-2xl hover:border hover:border-indigo-300 focus:border focus:border-indigo-300 border border-indigo-300 hover:shadow-xl  hover:shadow-indigo-100  [@media(max-width:500px)]:w-4/6 [@media(max-width:400px)]:p-1 '/></div>
             </div>
         </section>
         <main className='p-2.5'>
             <div className='xl:p-8 sm:p-2 m-2 gap-12 md:grid md:grid-cols-3'>
-                {Object.entries(products).map(([key,value])=>(
-                    <div className='rounded-2xl overflow-hidden p-2 sm:p-5 bg-indigo-200 sm:mb-40 mb-30 max-h-max' value={key}>
+                {Object.entries(Object.entries(userproducts).length === 0 ? products : userproducts).map(([key,value])=>(
+                    <div className='rounded-2xl overflow-hidden p-2 sm:p-5 bg-indigo-200 sm:mb-40 mb-30 max-h-max' key={key}>
                        <div className="h-6/9 place-content-center justify-items-center"><div className="h-fit"><img src={value.img} alt={value.name}/></div></div>
                         <section className="sm:p-4 p-3 flex justify-between font-bold sm:text-xl text-lg ">
                             <p>{value.name}</p>
