@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Shopping(){
     const [options,setOptions] = useState(false);
@@ -102,17 +103,17 @@ function Shopping(){
             <div className='flex relative justify-between items-center m-4'>
                 <div className='text-3xl [@media(max-width:400px)]:text-2xl  text-indigo-800'>Shopping Pool</div>
                 <div className='gap-15 items-center hidden sm:flex'>
-                    <a href="#">Home</a>
-                    <a href="#">Wishlist</a>
-                    <a href="#">Cart</a>
-                    <a href="#">Account</a>
+                    <Link to="/">Home</Link>
+                    <Link to="/Wishlist">Wishlist</Link>
+                    <Link to="/cart">Cart</Link>
+                    <Link to="/account">Account</Link>
                 </div>
                 <div className='sm:hidden mr-4 place-content-center text-amber-950 text-3xl hover:scale-130 [@media(max-width:400px)]:text-2xl'><button onClick={handleOnclick}>☰</button></div>
                 <div className={`${options ? "block" : "hidden"} gap-15 bg-indigo-100 absolute items-center top-12 right-0 w-30 rounded-2xl`}>
-                    <a href="#" className='p-1.5 block rounded-2xl text-center hover:bg-amber-50'>Home</a>
-                    <a href="#" className='p-1.5 block rounded-2xl text-center hover:bg-amber-50'>Wishlist</a>
-                    <a href="#" className='p-1.5 block rounded-2xl text-center hover:bg-amber-50'>Cart</a>
-                    <a href="#" className='p-1.5 block rounded-2xl text-center hover:bg-amber-50'>Account</a>
+                    <Link className='p-1.5 block rounded-2xl text-center hover:bg-amber-50' to="/">Home</Link>
+                    <Link className='p-1.5 block rounded-2xl text-center hover:bg-amber-50' to="/Wishlist">Wishlist</Link>
+                    <Link className='p-1.5 block rounded-2xl text-center hover:bg-amber-50' to="/cart">Cart</Link>
+                    <Link className='p-1.5 block rounded-2xl text-center hover:bg-amber-50' to="/account">Account</Link>
                 </div>
             </div>
         </nav>
