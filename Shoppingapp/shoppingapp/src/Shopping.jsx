@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function Shopping(){
     const [options,setOptions] = useState(false);
     const [userproducts,setUserproducts]=useState({});
     const [searchinput,setSearchinput]=useState("");
 
+    const carousel = ['/ts-1.webp','/shoe-1.webp','/cap-1.webp','/headphone-1.webp','/lap-1.webp','/sari.webp','/shoe-2.webp','/cap-2.webp','/headphone-2.webp','/lap-2.webp'];
 
     function handelSearch(e){
         setSearchinput(e.target.value);
     }
 
-
+    // for searching products from search bar
     useEffect(()=>{
         setUserproducts({});
         let filtered = {};
@@ -90,6 +94,20 @@ function Shopping(){
         }
     }
 
+    //slider settings are here
+
+    var settings = {
+        dots : true,
+        arrows : true,
+        infinite : true,
+        speed : 500,
+        slidesToShow : 3,
+        slidesToScroll : 1,
+        autoplay : true,
+        autoplaySpeed : 2000,
+        centerMode : true
+    };
+
     function handleOnclick(){
         if(!options){
             setOptions(true);
@@ -125,12 +143,21 @@ function Shopping(){
                 <div className='h-auto text-center w-auto'><input onChange={(e)=>{handelSearch(e)}} type="text" placeholder="Search for Something...." className='w-100 p-2 rounded-2xl hover:border hover:border-indigo-300 focus:border focus:border-indigo-300 border border-indigo-300 hover:shadow-xl  hover:shadow-indigo-100  [@media(max-width:500px)]:w-4/6 [@media(max-width:400px)]:p-1 '/></div>
             </div>
         </section>
+        <div className="mt-5 mb-5">
+            <Slider {...settings}>
+            {carousel.map((item,index)=>(
+            <div className="p-2" key={index}>
+            <div className="flex p-2 items-center justify-center rounded-2xl h-80 w-full m-1 overflow-hidden"><img className="max-h-full max-w-full rounded-4xl object-contain"  src={item} alt={`slide-${item}`}/></div>
+            </div>
+            ))}
+            </Slider>
+            </div>
         <main className='p-2.5'>
             <div className='xl:p-8 sm:p-2 m-2 gap-12 md:grid md:grid-cols-3'>
                 {Object.entries(Object.entries(userproducts).length === 0 ? products : userproducts).map(([key,value])=>(
                     <div className='rounded-2xl overflow-hidden p-2 sm:p-5 bg-indigo-200 sm:mb-40 mb-30 max-h-max' key={key}>
                        <div className="h-6/9 place-content-center justify-items-center"><div className="h-fit"><img src={value.img} alt={value.name}/></div></div>
-                        <section className="sm:p-4 p-3 flex justify-between font-bold sm:text-xl text-lg ">
+                        <section className="sm:p-4 p-3 mt-1 flex justify-between font-bold sm:text-xl text-lg ">
                             <p>{value.name}</p>
                             <p>{`₹${value.prize}`}</p>
                         </section>
