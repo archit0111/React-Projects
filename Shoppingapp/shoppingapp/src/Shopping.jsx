@@ -1,14 +1,39 @@
 import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { LoginContext } from "./contex/LoginContext";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Modal from "./Modal/Modal.jsx";
 
 function Shopping(){
     const [options,setOptions] = useState(false);
     const [userproducts,setUserproducts]=useState({});
     const [searchinput,setSearchinput]=useState("");
+    const {isLogin,toggleLogin} = useContext(LoginContext);
+    const [userDetail,setUserDetail] = useState({
+        name : "",
+        Phone: "",
+        password : ""
+    });
+   const [modelDisplay,setModelDisplay] = useState(false);
+
+    function handleNewLogin(){
+        toggleLogin();
+        isLogin ? alert("You are logged out") : alert("You are logged in");
+    }
+
+    function handleLogin(){
+        setModelDisplay(prev=>!prev);
+    }
+
+    function handleChange(e){
+        if(e.target.id==="username"){setUserDetail({...userDetail,name:e.target.value});}
+        if(e.target.id==="phone"){setUserDetail({...userDetail,Phone:e.target.value});}
+        if(e.target.id==="password"){setUserDetail({...userDetail,password:e.target.value});}
+    }
+    
 
     const carousel = ['/ts-1.webp','/shoe-1.webp','/cap-1.webp','/headphone-1.webp','/lap-1.webp','/sari.webp','/shoe-2.webp','/cap-2.webp','/headphone-2.webp','/lap-2.webp'];
 
@@ -117,6 +142,24 @@ function Shopping(){
     }
     return(
         <>
+        {modelDisplay && <Modal handleClose={handleLogin}>
+            <div className="bg-indigo-200 h-11/12 p-4 rounded-2xl">
+                <div className="h-1/10 mt-5"><p className="text-2xl rounded-2xl font-bold bg-indigo-300 pl-3 p-4 flex justify-center h-2/3 items-center mb-8 text-indigo-900">LOGIN TO EXPLORE MORE</p> <div></div></div>
+                <form>
+                <div className="mt-4 m-10 rounded-2xl bg-indigo-300 h-min">
+                    <div className="p-10">
+                        <label className="block pt-2 pl-2 font-semibold text-2xl text-indigo-900" htmlFor="username">Name:</label>
+                        <input className="border-indigo-900 focus:border-indigo-900 block p-1 rounded-md h-12 text-2xl mb-1 mt-5 w-10/12 ml-10 border" type="text" name="username" id="username" placeholder="Username" required onChange={(e)=>handleChange(e)} />
+                        <label className="block pt-4 pl-2 font-semibold text-2xl text-indigo-900" htmlFor="username">Contact No.:</label>
+                        <input className="border-indigo-900 block p-1 rounded-md h-12 text-2xl mb-1  mt-5 w-10/12 ml-10 border" type="tel" name="phone" id="phone" placeholder="XXXXXXXXXX" required onChange={(e)=>handleChange(e)} />
+                        <label className="block pt-4 pl-2 font-semibold text-2xl text-indigo-900" htmlFor="username">Password:</label>
+                        <input className="border-indigo-900 block p-1 rounded-md h-12 text-2xl mb-1  mt-5 w-10/12 ml-10 border" type="password" name="password" id="password" placeholder="Enter Password" required onChange={(e)=>handleChange(e)} />
+                    </div>
+                </div>
+                <div className="mt-5 mb-5 flex justify-center items-center"><button className="h-15 w-80 border hover:bg-green-600 bg-indigo-300 text-4xl rounded-2xl p-2" onClick={handleNewLogin}>Login</button></div>
+                <div className="mt-2 flex justify-center items-center"><button className="h-15 w-80 border hover:bg-green-600 bg-indigo-300 text-4xl rounded-2xl p-2">Regirter User</button></div></form>
+            </div>
+        </Modal>}
         <nav className='bg-indigo-300 h-16 content-center'>
             <div className='flex relative justify-between items-center m-4'>
                 <div className='text-3xl [@media(max-width:400px)]:text-2xl  text-indigo-800'>Shopping Pool</div>
@@ -124,7 +167,7 @@ function Shopping(){
                     <Link to="/">Home</Link>
                     <Link to="/Wishlist">Wishlist</Link>
                     <Link to="/cart">Cart</Link>
-                    <Link to="/account">Account</Link>
+                    {!isLogin? <button onClick={handleLogin}>Account</button>:<Link to="/account">Account</Link>}
                 </div>
                 <div className='sm:hidden mr-4 place-content-center text-amber-950 text-3xl hover:scale-130 [@media(max-width:400px)]:text-2xl'><button onClick={handleOnclick}>☰</button></div>
                 <div className={`${options ? "block" : "hidden"} gap-15 bg-indigo-100 absolute items-center top-12 right-0 w-30 rounded-2xl`}>
