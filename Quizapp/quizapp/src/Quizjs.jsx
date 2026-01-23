@@ -1,5 +1,6 @@
 import './Quiz.css'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ThemeContext } from './context/ThemeContext';
 
 function Quizjs(){
     const [Ans,setAns] = useState({});
@@ -7,6 +8,7 @@ function Quizjs(){
     const [correct,setcorrect] = useState(0);
     const [incorrect,setincorrect] = useState(0);
     const [Wrongans,setWrongans] = useState([]);
+    const {theme,settheme} =useContext(ThemeContext);
     const correctAnswers = [1, 4, 2, 1, 3, 1, 2, 3, 4, 2];
 
 
@@ -75,21 +77,21 @@ function Quizjs(){
 
     return(        
         <>
-        <div id="question">
+         <div id={theme === "Light"?"question":"question_dark"}>
             {Questions.map((q,i) => (
                 <div key={i}>
-                    <div id="ques"><p id="q">Q{i+1}.</p>{q}</div>
-                    <ul className="option_list">
+                    <div id={theme === "Light"?"ques":"ques_dark"}><p id={theme === "Light"?"q":"q_dark"}>Q{i+1}.</p>{q}</div>
+                    <ul className={theme === "Light"?"option_list":"option_list_dark"}>
                         {options[i].map((opt,o)=>(
                         <li id="option" key={o}><input type="radio" onClick={handelAns} className="ans_selected" name={i+1} value={o+1}/>
-                            <p id="op">{opt}</p></li>
+                            <p id={theme === "Light"?"op":"op_dark"}>{opt}</p></li>
                     ))}
                     </ul>
                 </div>
             ))
             }
             </div>
-            <div id='result_btn'><button onClick={handelResults}>Show Result</button></div>
+            <div id='result_btn'><button className={theme === "Light"?"button":"button_dark"} onClick={handelResults}>Show Result</button></div>
             {Result && <><div id='result'>
                 <div id="correct">Your correct Answers:{correct}</div>
                 <div id="incorrect">Your incorrect Answers:{incorrect}</div>
