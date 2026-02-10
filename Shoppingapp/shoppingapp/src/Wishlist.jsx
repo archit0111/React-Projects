@@ -1,71 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Wishlist(){
     const [options,setOptions] = useState(false);
+    const [wishlist,setWishlist] = useState([]);
 
-    const products ={
-        id_1:{
-        name: "T Shirt",
-        img: '/ts-1.webp',
-        prize: 500,
-        type:["tshirt","cotton", "cloths", "casual", "man"]
-        },
-        id_2:{
-        name: "Formal Shoe",
-        img: '/shoe-1.webp',
-        prize: 2500,
-        type:["shoe","formal", "shoe", "black", "man"]
-        },
-        id_3:{
-        name: "Casual Shoe",
-        img: '/shoe-2.webp',
-        prize: 1500,
-        type:["shoe","casual", "shoe", "blue", "man"]
-        },
-        id_4:{
-        name: "Cap",
-        img: '/cap-1.webp',
-        prize: 500,
-        type:["cap","casual","black"]
-        },
-        id_5:{
-        name: "Cap",
-        img: '/cap-2.webp',
-        prize: 550,
-        type:["cap","casual","white"]
-        },
-        id_6:{
-        name: "Headphone",
-        img: '/headphone-1.webp',
-        prize: 1959,
-        type:["headphone","electronics", "silver", "boat"]
-        },
-        id_7:{
-        name: "Headphone",
-        img: '/headphone-2.webp',
-        prize: 2590,
-        type:["headphone","electronics", "black", "jlb"]
-        },
-        id_8:{
-        name: "Laptop asus",
-        img: '/lap-1.webp',
-        prize: 50099,
-        type:["laptop","asus", "black", "electronics"]
-        },
-        id_9:{
-        name: "Laptop aser",
-        img: '/lap-2.webp',
-        prize: 112999,
-        type:["laptop","aser", "black", "electronics"]
-        },
-        id_10:{
-        name: "Sari",
-        img: '/sari.webp',
-        prize: 4999,
-        type:["sari","cloth", "women", "pink"]
+    useEffect(()=>{
+        fetch('http://localhost:3000/api/wishlist')
+        .then(responce=>responce.json())
+        .then(data=>setWishlist(data))
+        .catch(err=>console.log("Error in fetching wishlist items:"+err))
+    },[]);
+
+    function handleRemove(item){
+        fetch('http://localhost:3000/api/wishlist',{
+            method : "DELETE",
+            headers:{'content-type':'application/json'},
+            body:JSON.stringify(item)
+        })
+        .then(responce=>responce.json())
+        .then(data=>console.log("Item Removed:",data))
+        .catch(err=>console.log("Error in removing wishlist items:"+err))
         }
-    }
 
     function handleOnclick(){
         if(!options){
@@ -95,10 +51,26 @@ function Wishlist(){
                 </div>
             </div>
         </nav>
+        <section className='h-max bg-indigo-100 content-center text-center'>
+            <p className='text-center text-red-500 text-2px'> !! HEAVY DISSCOUNT ON ORDER OF ONLY MORE THAN 1499/- !!</p>
+        </section>
 
-         {/* pagination Implimentation */}
-
-         <div></div>
+         <div className="p-4 mt-15 flex flex-col gap-5 items-center">
+            {wishlist.length>0?Object.entries(wishlist).map(([key,value])=>(
+                <div key={key} className="flex flex-row gap-10 bg-indigo-300 p-4 w-full ">
+                    <section className="w-fit">
+                        <img className="h-55 w-auto" src={value.img} alt={value.img} />
+                    </section>
+                    <section className="flex flex-col gap-4 mt-10">
+                        <div className="text-lg font-bold">{value.name}</div>
+                        <div className="text-lg font-semibold">{value.prize}</div> 
+                        <section className="flex flex-row gap-4">
+                            <button className="bg-indigo-500 p-1 pl-2 pr-2 mt-8 rounded-lg hover:scale-110 hover:bg-red-500" onClick={()=>handleRemove(value)}>Remove from wishlist</button>                       
+                        <button className="bg-indigo-500 p-1 mt-8 pl-2 pr-2 rounded-lg hover:scale-110 hover:bg-green-500" onClick={null}>Add to cart</button> </section>                      
+                    </section>
+                </div>
+            )):null}
+         </div>
 
         </>
     )

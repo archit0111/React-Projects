@@ -15,7 +15,7 @@ function Shopping(){
         .then(response=>response.json())
         .then(data=>setProducts(data))
         .catch((err)=>console.log(`Error fetching products: ${err}`))
-},[])
+},[]);
 
     const [options,setOptions] = useState(false);
     const [userproducts,setUserproducts]=useState({});
@@ -27,6 +27,18 @@ function Shopping(){
         password : ""
     });
    const [modelDisplay,setModelDisplay] = useState(false);
+
+   function handelAddToWishlist(value){
+    console.log(value);
+    fetch('http://localhost:3000/api/wishlist',{
+        method : "POST",
+        headers:{'Content-type':'application/json'},  //sending json data to server
+        body : JSON.stringify(value)
+    })
+    .then(responce=>responce.json())
+    .then(data=>console.log("Sucsess"+data))
+    .catch(err=>console.log("Error occured in adding to wishlist"+err))
+   }
 
     function handleNewLogin(){
         toggleLogin();
@@ -63,70 +75,6 @@ function Shopping(){
         })
         setUserproducts(filtered);
     },[searchinput]);
-
-
-    // const products ={
-    //     // id_1:{
-    //     // name: "T Shirt",
-    //     // img: '/ts-1.webp',
-    //     // prize: 500,
-    //     // type:["tshirt","cotton", "cloths", "casual", "man"]
-    //     // },
-    //     // id_2:{
-    //     // name: "Formal Shoe",
-    //     // img: '/shoe-1.webp',
-    //     // prize: 2500,
-    //     // type:["shoe","formal", "shoe", "black", "man"]
-    //     // },
-    //     // id_3:{
-    //     // name: "Casual Shoe",
-    //     // img: '/shoe-2.webp',
-    //     // prize: 1500,
-    //     // type:["shoe","casual", "shoe", "blue", "man"]
-    //     // },
-    //     // id_4:{
-    //     // name: "Cap",
-    //     // img: '/cap-1.webp',
-    //     // prize: 500,
-    //     // type:["cap","casual","black"]
-    //     // },
-    //     // id_5:{
-    //     // name: "Cap",
-    //     // img: '/cap-2.webp',
-    //     // prize: 550,
-    //     // type:["cap","casual","white"]
-    //     // },
-    //     // id_6:{
-    //     // name: "Headphone",
-    //     // img: '/headphone-1.webp',
-    //     // prize: 1959,
-    //     // type:["headphone","electronics", "silver", "boat"]
-    //     // },
-    //     // id_7:{
-    //     // name: "Headphone",
-    //     // img: '/headphone-2.webp',
-    //     // prize: 2590,
-    //     // type:["headphone","electronics", "black", "jlb"]
-    //     // },
-    //     // id_8:{
-    //     // name: "Laptop asus",
-    //     // img: '/lap-1.webp',
-    //     // prize: 50099,
-    //     // type:["laptop","asus", "black", "electronics"]
-    //     // },
-    //     // id_9:{
-    //     // name: "Laptop aser",
-    //     // img: '/lap-2.webp',
-    //     // prize: 112999,
-    //     // type:["laptop","aser", "black", "electronics"]
-    //     // },
-    //     // id_10:{
-    //     // name: "Sari",
-    //     // img: '/sari.webp',
-    //     // prize: 4999,
-    //     // type:["sari","cloth", "women", "pink"]
-    //     // }
-    // }
 
     //slider settings are here
 
@@ -216,7 +164,7 @@ function Shopping(){
                         <section className="sm:p-4 text-sm sm:text-lg -mt-1.5">
                             <button className='font-medium bg-indigo-400 hover:bg-indigo-500 p-2 block place-self-center rounded-2xl w-3/5 sm:w-5/6 mb-2 hover:shadow-md hover:scale-103 hover:shadow-indigo-500 '>Shop Now</button>
                             <button className='font-medium bg-indigo-400 hover:bg-indigo-500 p-2 block place-self-center rounded-2xl w-3/5 sm:w-5/6 mb-2 hover:shadow-md hover:scale-103 hover:shadow-indigo-500'>Add to cart</button>
-                            <button className='font-medium bg-indigo-400 hover:bg-indigo-500 p-2 block place-self-center rounded-2xl w-3/5 sm:w-5/6 mb-4 hover:shadow-md hover:scale-103 hover:shadow-indigo-500'>Add to Wishlist</button>
+                            <button className='font-medium bg-indigo-400 hover:bg-indigo-500 p-2 block place-self-center rounded-2xl w-3/5 sm:w-5/6 mb-4 hover:shadow-md hover:scale-103 hover:shadow-indigo-500'onClick={()=>handelAddToWishlist(value)}>❤️ Add to Wishlist</button>
                         </section>
                     </div>
                 ))}
