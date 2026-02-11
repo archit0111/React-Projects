@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useEffect, useContext } from "react";
 import { LoginContext } from "./contex/LoginContext";
 import { Link } from "react-router-dom";
@@ -8,14 +8,20 @@ import "slick-carousel/slick/slick-theme.css";
 import Modal from "./Modal/Modal.jsx";
 
 function Shopping(){
-    const[products,setProducts] = useState({});
+    const[products,setProducts] = useState([]);
+    const[page,setPage]=useState(1);
+    const [limit,setLimit]=useState(4);
+    const [pageData,setPageData]=useState({});
 
     useEffect(()=>{
-        fetch('http://localhost:3000/api/products')
+        fetch(`http://localhost:3000/api/products?page=${page}&limit=${limit}`)
         .then(response=>response.json())
-        .then(data=>setProducts(data))
+        .then(data=>{
+            setPageData(data);
+            setProducts(data.items)
+        })
         .catch((err)=>console.log(`Error fetching products: ${err}`))
-},[]);
+},[page]);
 
     const [options,setOptions] = useState(false);
     const [userproducts,setUserproducts]=useState({});
@@ -49,6 +55,14 @@ function Shopping(){
         setModelDisplay(prev=>!prev);
     }
 
+    function getNextPage(){
+        if(page<Number(pageData.numberOfPages)){
+            setPage(prev=>prev+1);
+        }
+    }
+    function getPreviousPage(){
+        if(page>1){setPage(prev=>prev-1);}
+    }
     function handleChange(e){
         if(e.target.id==="username"){setUserDetail({...userDetail,name:e.target.value});}
         if(e.target.id==="phone"){setUserDetail({...userDetail,Phone:e.target.value});}
@@ -171,6 +185,11 @@ function Shopping(){
                 
             </div>
         </main>
+        <section className="m-2 mb-10 flex gap-4 justify-center">
+            <div className="justify-center p-1 flex"><button className="bg-yellow-300 rounded-lg p-2 hover:bg-yellow-500 hover:shadow-lg" onClick={()=>(getPreviousPage())}>Previous</button></div>
+            <span>{`Page ${page} of ${pageData.numberOfPages}`}</span>
+            <div className="justify-center p-1 flex"><button className="bg-green-300 rounded-lg p-2 hover:bg-green-500 hover:shadow-lg"onClick={()=>(getNextPage())}>Next</button></div>
+        </section>
         </>
     )
 }

@@ -1,6 +1,5 @@
 const http = require('http');
 const mongooose = require('mongoose');
-const { stringify } = require('querystring');
 
 mongooose.connect('mongodb://localhost:27017/shopping_product')
 .then(console.log("mongodb connected!"))
@@ -19,6 +18,9 @@ const wishlistProduct = mongooose.model('wishlistProduct',productSchema)
 const  server = http.createServer(async (req , res)=>{
 
     console.log("Request URL:", req.url,"Host:", req.headers.host, "Method:", req.method);
+    // using url constructor to get the query parameters
+
+     const url = new URL(req.url, `http://${req.headers.host}`);
 
 
     // setting headers for allowing cross-origin requests and setting content type to html by default
@@ -28,24 +30,25 @@ const  server = http.createServer(async (req , res)=>{
     res.setHeader('Access-Control-Allow-Origin','*');
     res.setHeader('Access-Control-Allow-Headers','Content-Type');
     
-    if(req.url === '/api/products' && req.method === 'GET'){
+    if(url.pathname === '/api/products'&& req.method === 'GET'){
         res.setHeader('Content-Type','application/json');
+        const page =url.searchParams.get('page') || 1;
+        const limit = url.searchParams.get('limit');
+        const skip = (page-1)*limit;
+        const items = await product.find().skip(skip).limit(limit);
+        const totalItems = await product.countDocuments();
+        const numberOfPages = Math.ceil(totalItems/limit);
+        res.end(JSON.stringify({
+            items,
+            numberOfPages,
+            currentPage : page
+        }))
 
-
-        // handeling Fetching products using find() i.e implimenting C of CRUD
-
-        try{
-            const products = await product.find()
-            res.end(JSON.stringify(products));
-        }
-        catch(err){
-            res.end(JSON.stringify({message : "Error occured in fetching data from database: "+err}))
-        }
     }
 
     //  handling post request for adding product to wishlist
     //  we are receiving data from react in chunks and converting it to string and then parsing it to json and then saving it to wishlist collection
-    else if(req.url === '/api/wishlist'&& req.method === 'POST'){
+    else if(url.pathname === '/api/wishlist'&& req.method === 'POST'){
         let body ="";
         req.on('data',chunk=>{body+=chunk.toString()});
         req.on('end',async()=>{
@@ -61,7 +64,7 @@ const  server = http.createServer(async (req , res)=>{
     }
 
     // feching data from wishlist
-    else if(req.url === '/api/wishlist'&& req.method === 'GET'){
+    else if(url.pathname === '/api/wishlist'&& req.method === 'GET'){
         res.setHeader('Content-Type','application/json');
         try{
             const wishlistProducts = await wishlistProduct.find()
@@ -71,7 +74,7 @@ const  server = http.createServer(async (req , res)=>{
             res.end(JSON.stringify({message:"Error occured in fetching wishlist products :"+err}))
         }
     }
-    else if(req.url === '/api/wishlist'&& req.method === 'DELETE'){
+    else if(url.pathname === '/api/wishlist'&& req.method === 'DELETE'){
         let body ="";
         req.on('data',chunk=>{body+=chunk.toString()});
         req.on('end',async()=>{
