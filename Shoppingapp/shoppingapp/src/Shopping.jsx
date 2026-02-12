@@ -12,6 +12,8 @@ function Shopping(){
     const[page,setPage]=useState(1);
     const [limit,setLimit]=useState(4);
     const [pageData,setPageData]=useState({});
+    const[search,setSearch]=useState([]);
+    const[suggestionBox,setSugestionBox]=useState(false);
 
     useEffect(()=>{
         fetch(`http://localhost:3000/api/products?page=${page}&limit=${limit}`)
@@ -74,19 +76,27 @@ function Shopping(){
 
     function handelSearch(e){
         setSearchinput(e.target.value);
+        if(e.target.value){
+             setSugestionBox(true);
+        }else{
+             setSugestionBox(false);
+        }
     }
 
     // for searching products from search bar
     useEffect(()=>{
         setUserproducts({});
         let filtered = {};
+        let search = [];
         Object.entries(products).forEach(([key,value])=>{
             value.type.forEach(item=>{
                 if(item.startsWith(searchinput.toLowerCase())){
                         filtered[key] = value;
+                        search.push(item);
                 }
             });
         })
+        setSearch(search);
         setUserproducts(filtered);
     },[searchinput]);
 
@@ -155,6 +165,14 @@ function Shopping(){
         <section className="h-28 content-center">
             <div>
                 <div className='h-auto text-center w-auto'><input onChange={(e)=>{handelSearch(e)}} type="text" placeholder="Search for Something...." className='w-100 p-2 rounded-2xl hover:border hover:border-indigo-300 focus:border focus:border-indigo-300 border border-indigo-300 hover:shadow-xl  hover:shadow-indigo-100  [@media(max-width:500px)]:w-4/6 [@media(max-width:400px)]:p-1 '/></div>
+                {suggestionBox?<ul className={"h-auto grid grid-cols-2 gap-2 w-80 p-2 text-center justify-self-center absolute z-50 bg-white rounded-2xl border border-indigo-200 mt-1 opacity-80"}>
+                    { 
+                        search.map((item,index)=>(
+                        <li key={index} className="p-1"><b>{index+":"+item}</b></li>
+                    ))
+                    }
+                    <li className={search.length===0?"p-1 col-span-2 justify-center text-center justify-self-center":"hidden"}>No products found...</li>
+                </ul>:null}
             </div>
         </section>
         <div className="mt-5 mb-5">
