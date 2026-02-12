@@ -167,8 +167,8 @@ function Shopping(){
                 <div className='h-auto text-center w-auto'><input onChange={(e)=>{handelSearch(e)}} type="text" placeholder="Search for Something...." className='w-100 p-2 rounded-2xl hover:border hover:border-indigo-300 focus:border focus:border-indigo-300 border border-indigo-300 hover:shadow-xl  hover:shadow-indigo-100  [@media(max-width:500px)]:w-4/6 [@media(max-width:400px)]:p-1 '/></div>
                 {suggestionBox?<ul className={"h-auto grid grid-cols-2 gap-2 w-80 p-2 text-center justify-self-center absolute z-50 bg-white rounded-2xl border border-indigo-200 mt-1 opacity-80"}>
                     { 
-                        search.map((item,index)=>(
-                        <li key={index} className="p-1"><b>{index+":"+item}</b></li>
+                        [...new Set(search)].map((item,index)=>(
+                        <li key={index} className="p-1"><b>{item}</b></li>
                     ))
                     }
                     <li className={search.length===0?"p-1 col-span-2 justify-center text-center justify-self-center":"hidden"}>No products found...</li>
