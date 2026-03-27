@@ -1,4 +1,3 @@
-import './App.css'
 import ExpanceTraker from './ExpanceTraker'
 
 function App() {
